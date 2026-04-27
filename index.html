@@ -407,6 +407,45 @@
     margin-left: 6px;
   }
 
+  /* Guestbook section */
+  .guestbook {
+    max-width: 1400px;
+    margin: 40px auto 0;
+    padding: 0 24px 60px;
+  }
+
+  .guestbook-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .guestbook-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+  }
+
+  .guestbook-intro {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .guestbook-intro strong {
+    color: var(--accent-design);
+  }
+
+  /* Giscus overrides for dark theme */
+  .giscus {
+    max-width: 100%;
+  }
+
   /* Hidden */
   .hidden { display: none !important; }
 
@@ -521,6 +560,35 @@
   <div class="section-title">📡 灵感 Feed</div>
   <div class="feed" id="feedContainer"></div>
 </main>
+
+<!-- Guestbook -->
+<section class="guestbook">
+  <div class="guestbook-title">💬 留言板</div>
+  <div class="guestbook-card">
+    <div class="guestbook-intro">
+      来都来了，留个言再走吧 👋<br>
+      用 <strong>GitHub 账号</strong>登录即可留言，支持 Markdown 格式。无论是灵感碰撞、功能建议、Bug反馈，还是单纯想聊聊游戏开发，都欢迎！
+    </div>
+    <div class="giscus">
+      <script src="https://giscus.app/client.js"
+        data-repo="monet-home-dev/gamepulse"
+        data-repo-id="R_kgDOSNm9GQ"
+        data-category="General"
+        data-category-id="DIC_kwDOSNm9Gc4C7x2d"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="dark_dimmed"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+      </script>
+    </div>
+  </div>
+</section>
 
 <!-- Footer -->
 <footer class="footer">
