@@ -5,35 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GameDev Pulse — 游戏开发灵感站</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
   :root {
-    --bg-primary: #0a0a0f;
-    --bg-secondary: #12121a;
-    --bg-card: #1a1a28;
-    --bg-card-hover: #222236;
-    --border: #2a2a3e;
-    --text-primary: #e8e8f0;
-    --text-secondary: #9898b0;
-    --text-muted: #5e5e78;
-    --accent-new: #ff4d6a;
-    --accent-design: #7b61ff;
-    --accent-industry: #00c9a7;
-    --accent-art: #ffb347;
-    --gradient-new: linear-gradient(135deg, #ff4d6a, #ff2d5e);
-    --gradient-design: linear-gradient(135deg, #7b61ff, #5a3fff);
-    --gradient-industry: linear-gradient(135deg, #00c9a7, #00a88a);
-    --gradient-art: linear-gradient(135deg, #ffb347, #ff9500);
+    --bg-primary: #050510;
+    --bg-secondary: #0a0a1a;
+    --bg-card: #0d0d20;
+    --bg-card-hover: #12122e;
+    --border: #1a1a40;
+    --border-glow: #00f0ff33;
+    --text-primary: #e0f0ff;
+    --text-secondary: #7890b0;
+    --text-muted: #3d5070;
+    --neon-pink: #ff2d78;
+    --neon-cyan: #00f0ff;
+    --neon-purple: #b030ff;
+    --neon-yellow: #ffe040;
+    --neon-green: #00ff88;
+    --accent-new: #ff2d78;
+    --accent-design: #b030ff;
+    --accent-industry: #00ff88;
+    --accent-art: #ffe040;
+    --gradient-new: linear-gradient(135deg, #ff2d78, #ff0050);
+    --gradient-design: linear-gradient(135deg, #b030ff, #7b00ff);
+    --gradient-industry: linear-gradient(135deg, #00ff88, #00cc66);
+    --gradient-art: linear-gradient(135deg, #ffe040, #ffaa00);
+    --glow-pink: 0 0 20px rgba(255,45,120,0.3), 0 0 60px rgba(255,45,120,0.1);
+    --glow-cyan: 0 0 20px rgba(0,240,255,0.3), 0 0 60px rgba(0,240,255,0.1);
+    --glow-purple: 0 0 20px rgba(176,48,255,0.3), 0 0 60px rgba(176,48,255,0.1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    font-family: 'Noto Sans SC', 'Share Tech Mono', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 240, 255, 0.015) 2px,
+      rgba(0, 240, 255, 0.015) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+      linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: -1;
   }
 
   /* Header */
@@ -41,9 +86,10 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(10, 10, 15, 0.85);
+    background: rgba(5, 5, 16, 0.9);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 30px rgba(0, 240, 255, 0.05);
     padding: 0 24px;
   }
 
@@ -53,33 +99,40 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 68px;
   }
 
   .logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 20px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 
   .logo-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--gradient-design);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
+    box-shadow: var(--glow-pink);
+    clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
   }
 
-  .logo span { color: var(--accent-design); }
+  .logo span {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.2);
+  }
 
   .search-bar {
-    flex: 0 1 400px;
+    flex: 0 1 420px;
     position: relative;
   }
 
@@ -88,16 +141,17 @@
     padding: 10px 16px 10px 40px;
     background: var(--bg-secondary);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    color: var(--text-primary);
+    border-radius: 2px;
+    color: var(--neon-cyan);
+    font-family: 'Share Tech Mono', monospace;
     font-size: 14px;
     outline: none;
     transition: all 0.3s;
   }
 
   .search-bar input:focus {
-    border-color: var(--accent-design);
-    box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.15);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.15), var(--glow-cyan);
   }
 
   .search-bar input::placeholder { color: var(--text-muted); }
@@ -107,14 +161,16 @@
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
+    color: var(--neon-cyan);
     font-size: 14px;
   }
 
   .header-date {
-    color: var(--text-muted);
-    font-size: 13px;
+    color: var(--neon-cyan);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
     font-weight: 500;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
   }
 
   /* Tabs */
@@ -138,40 +194,74 @@
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px;
     background: transparent;
     color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 500;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
     white-space: nowrap;
-    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   .tab-btn:hover {
     background: var(--bg-card);
     color: var(--text-primary);
+    border-color: var(--border);
   }
 
-  .tab-btn.active[data-tab="new"] { background: rgba(255, 77, 106, 0.15); color: var(--accent-new); }
-  .tab-btn.active[data-tab="design"] { background: rgba(123, 97, 255, 0.15); color: var(--accent-design); }
-  .tab-btn.active[data-tab="industry"] { background: rgba(0, 201, 167, 0.15); color: var(--accent-industry); }
-  .tab-btn.active[data-tab="art"] { background: rgba(255, 179, 71, 0.15); color: var(--accent-art); }
+  .tab-btn.active[data-tab="all"] {
+    background: rgba(0, 240, 255, 0.08);
+    color: var(--neon-cyan);
+    border-color: rgba(0, 240, 255, 0.3);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+  }
+
+  .tab-btn.active[data-tab="new"] {
+    background: rgba(255, 45, 120, 0.1);
+    color: var(--neon-pink);
+    border-color: rgba(255, 45, 120, 0.3);
+    text-shadow: 0 0 8px rgba(255, 45, 120, 0.4);
+  }
+
+  .tab-btn.active[data-tab="design"] {
+    background: rgba(176, 48, 255, 0.1);
+    color: var(--neon-purple);
+    border-color: rgba(176, 48, 255, 0.3);
+    text-shadow: 0 0 8px rgba(176, 48, 255, 0.4);
+  }
+
+  .tab-btn.active[data-tab="industry"] {
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--neon-green);
+    border-color: rgba(0, 255, 136, 0.3);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+  }
+
+  .tab-btn.active[data-tab="art"] {
+    background: rgba(255, 224, 64, 0.08);
+    color: var(--neon-yellow);
+    border-color: rgba(255, 224, 64, 0.3);
+    text-shadow: 0 0 8px rgba(255, 224, 64, 0.4);
+  }
 
   .tab-count {
-    font-size: 11px;
-    padding: 2px 7px;
-    border-radius: 6px;
-    background: rgba(255,255,255,0.08);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.05);
     font-weight: 600;
+    font-family: 'Share Tech Mono', monospace;
   }
 
-  .tab-btn.active[data-tab="new"] .tab-count { background: rgba(255, 77, 106, 0.25); }
-  .tab-btn.active[data-tab="design"] .tab-count { background: rgba(123, 97, 255, 0.25); }
-  .tab-btn.active[data-tab="industry"] .tab-count { background: rgba(0, 201, 167, 0.25); }
-  .tab-btn.active[data-tab="art"] .tab-count { background: rgba(255, 179, 71, 0.25); }
+  .tab-btn.active[data-tab="new"] .tab-count { background: rgba(255, 45, 120, 0.2); }
+  .tab-btn.active[data-tab="design"] .tab-count { background: rgba(176, 48, 255, 0.2); }
+  .tab-btn.active[data-tab="industry"] .tab-count { background: rgba(0, 255, 136, 0.15); }
+  .tab-btn.active[data-tab="art"] .tab-count { background: rgba(255, 224, 64, 0.15); }
 
   /* Main content */
   .main {
@@ -181,12 +271,14 @@
   }
 
   .section-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-muted);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--neon-cyan);
     margin-bottom: 16px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
   }
 
   /* Feed */
@@ -195,7 +287,7 @@
   .feed-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 2px;
     padding: 24px;
     transition: all 0.3s;
     cursor: pointer;
@@ -209,21 +301,36 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 4px;
-    border-radius: 4px 0 0 4px;
+    width: 3px;
   }
 
-  .feed-card[data-type="new"]::before { background: var(--gradient-new); }
-  .feed-card[data-type="design"]::before { background: var(--gradient-design); }
-  .feed-card[data-type="industry"]::before { background: var(--gradient-industry); }
-  .feed-card[data-type="art"]::before { background: var(--gradient-art); }
+  .feed-card[data-type="new"]::before {
+    background: var(--gradient-new);
+    box-shadow: 0 0 15px rgba(255, 45, 120, 0.5);
+  }
+  .feed-card[data-type="design"]::before {
+    background: var(--gradient-design);
+    box-shadow: 0 0 15px rgba(176, 48, 255, 0.5);
+  }
+  .feed-card[data-type="industry"]::before {
+    background: var(--gradient-industry);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+  }
+  .feed-card[data-type="art"]::before {
+    background: var(--gradient-art);
+    box-shadow: 0 0 15px rgba(255, 224, 64, 0.5);
+  }
 
   .feed-card:hover {
     background: var(--bg-card-hover);
-    border-color: transparent;
+    border-color: var(--border-glow);
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   }
+
+  .feed-card[data-type="new"]:hover { box-shadow: 0 4px 30px rgba(255, 45, 120, 0.15); }
+  .feed-card[data-type="design"]:hover { box-shadow: 0 4px 30px rgba(176, 48, 255, 0.15); }
+  .feed-card[data-type="industry"]:hover { box-shadow: 0 4px 30px rgba(0, 255, 136, 0.12); }
+  .feed-card[data-type="art"]:hover { box-shadow: 0 4px 30px rgba(255, 224, 64, 0.12); }
 
   .feed-card-header {
     display: flex;
@@ -233,21 +340,43 @@
   }
 
   .feed-tag {
-    font-size: 11px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
     font-weight: 700;
     padding: 3px 10px;
-    border-radius: 6px;
+    border-radius: 2px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
   }
 
-  .feed-tag.new { background: rgba(255, 77, 106, 0.15); color: var(--accent-new); }
-  .feed-tag.design { background: rgba(123, 97, 255, 0.15); color: var(--accent-design); }
-  .feed-tag.industry { background: rgba(0, 201, 167, 0.15); color: var(--accent-industry); }
-  .feed-tag.art { background: rgba(255, 179, 71, 0.15); color: var(--accent-art); }
+  .feed-tag.new {
+    background: rgba(255, 45, 120, 0.12);
+    color: var(--neon-pink);
+    border: 1px solid rgba(255, 45, 120, 0.25);
+    text-shadow: 0 0 6px rgba(255, 45, 120, 0.3);
+  }
+  .feed-tag.design {
+    background: rgba(176, 48, 255, 0.12);
+    color: var(--neon-purple);
+    border: 1px solid rgba(176, 48, 255, 0.25);
+    text-shadow: 0 0 6px rgba(176, 48, 255, 0.3);
+  }
+  .feed-tag.industry {
+    background: rgba(0, 255, 136, 0.08);
+    color: var(--neon-green);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    text-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
+  }
+  .feed-tag.art {
+    background: rgba(255, 224, 64, 0.08);
+    color: var(--neon-yellow);
+    border: 1px solid rgba(255, 224, 64, 0.2);
+    text-shadow: 0 0 6px rgba(255, 224, 64, 0.3);
+  }
 
   .feed-source {
-    font-size: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
     color: var(--text-muted);
     margin-left: auto;
   }
@@ -284,18 +413,20 @@
   .feed-highlights {
     margin-top: 14px;
     padding: 14px 16px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.04);
+    background: rgba(0, 240, 255, 0.02);
+    border-radius: 2px;
+    border: 1px solid rgba(0, 240, 255, 0.06);
   }
 
   .feed-highlights-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-muted);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--neon-cyan);
     margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
   }
 
   .feed-highlights ul {
@@ -306,20 +437,28 @@
   }
 
   .feed-highlights li {
-    font-size: 13px;
-    padding: 4px 12px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    padding: 3px 10px;
+    background: rgba(0, 240, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.08);
+    border-radius: 2px;
     color: var(--text-secondary);
   }
 
   /* Featured card (larger) */
   .feed-card.featured {
     padding: 32px;
+    border-color: var(--border-glow);
   }
 
+  .feed-card.featured[data-type="new"] { box-shadow: inset 0 0 60px rgba(255, 45, 120, 0.03); }
+  .feed-card.featured[data-type="design"] { box-shadow: inset 0 0 60px rgba(176, 48, 255, 0.03); }
+  .feed-card.featured[data-type="industry"] { box-shadow: inset 0 0 60px rgba(0, 255, 136, 0.02); }
+  .feed-card.featured[data-type="art"] { box-shadow: inset 0 0 60px rgba(255, 224, 64, 0.02); }
+
   .feed-card.featured .feed-title {
-    font-size: 24px;
+    font-size: 22px;
   }
 
   /* Stats bar */
@@ -333,27 +472,47 @@
   .stat-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 2px;
     padding: 20px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+  }
+
+  .stat-card:nth-child(1)::after { background: var(--gradient-new); box-shadow: 0 0 10px rgba(255, 45, 120, 0.4); }
+  .stat-card:nth-child(2)::after { background: var(--gradient-design); box-shadow: 0 0 10px rgba(176, 48, 255, 0.4); }
+  .stat-card:nth-child(3)::after { background: var(--gradient-industry); box-shadow: 0 0 10px rgba(0, 255, 136, 0.4); }
+  .stat-card:nth-child(4)::after { background: var(--gradient-art); box-shadow: 0 0 10px rgba(255, 224, 64, 0.4); }
 
   .stat-number {
+    font-family: 'Orbitron', sans-serif;
     font-size: 28px;
     font-weight: 800;
-    letter-spacing: -1px;
+    letter-spacing: 2px;
   }
 
-  .stat-number.new { color: var(--accent-new); }
-  .stat-number.design { color: var(--accent-design); }
-  .stat-number.industry { color: var(--accent-industry); }
-  .stat-number.art { color: var(--accent-art); }
+  .stat-number.new { color: var(--neon-pink); text-shadow: 0 0 15px rgba(255, 45, 120, 0.4); }
+  .stat-number.design { color: var(--neon-purple); text-shadow: 0 0 15px rgba(176, 48, 255, 0.4); }
+  .stat-number.industry { color: var(--neon-green); text-shadow: 0 0 15px rgba(0, 255, 136, 0.4); }
+  .stat-number.art { color: var(--neon-yellow); text-shadow: 0 0 15px rgba(255, 224, 64, 0.4); }
 
   .stat-label {
-    font-size: 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
     color: var(--text-muted);
-    margin-top: 4px;
+    margin-top: 6px;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   /* Release calendar */
@@ -367,22 +526,27 @@
   .cal-item {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 2px;
     padding: 16px;
     transition: all 0.3s;
+    position: relative;
   }
 
   .cal-item:hover {
-    border-color: var(--accent-new);
+    border-color: rgba(255, 45, 120, 0.4);
+    box-shadow: 0 0 15px rgba(255, 45, 120, 0.1);
     transform: translateY(-1px);
   }
 
   .cal-date {
-    font-size: 11px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
     font-weight: 700;
-    color: var(--accent-new);
+    color: var(--neon-pink);
     margin-bottom: 6px;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(255, 45, 120, 0.3);
   }
 
   .cal-title {
@@ -392,19 +556,24 @@
   }
 
   .cal-platform {
+    font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
     color: var(--text-muted);
   }
 
   .cal-hot {
     display: inline-block;
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 4px;
-    background: rgba(255, 77, 106, 0.2);
-    color: var(--accent-new);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    background: rgba(255, 45, 120, 0.15);
+    border: 1px solid rgba(255, 45, 120, 0.3);
+    color: var(--neon-pink);
     font-weight: 700;
     margin-left: 6px;
+    text-shadow: 0 0 6px rgba(255, 45, 120, 0.3);
+    letter-spacing: 1px;
   }
 
   /* Guestbook section */
@@ -415,18 +584,20 @@
   }
 
   .guestbook-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-muted);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--neon-cyan);
     margin-bottom: 16px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
   }
 
   .guestbook-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 16px;
+    border-radius: 2px;
     padding: 32px;
   }
 
@@ -438,7 +609,8 @@
   }
 
   .guestbook-intro strong {
-    color: var(--accent-design);
+    color: var(--neon-cyan);
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
   }
 
   /* Giscus overrides for dark theme */
@@ -454,13 +626,14 @@
     text-align: center;
     padding: 40px 24px;
     color: var(--text-muted);
-    font-size: 13px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
     border-top: 1px solid var(--border);
     max-width: 1400px;
     margin: 0 auto;
   }
 
-  .footer a { color: var(--accent-design); text-decoration: none; }
+  .footer a { color: var(--neon-cyan); text-decoration: none; text-shadow: 0 0 6px rgba(0, 240, 255, 0.3); }
   .footer a:hover { text-decoration: underline; }
 
   /* Responsive */
@@ -469,11 +642,35 @@
     .search-bar { flex: 1; }
     .header-date { display: none; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    .feed-card.featured .feed-title { font-size: 20px; }
+    .feed-card.featured .feed-title { font-size: 18px; }
     .feed-title { font-size: 16px; }
   }
 
-  /* Animations */
+  /* Glitch animation for logo */
+  @keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
+
+  .logo:hover {
+    animation: glitch 0.3s ease;
+  }
+
+  /* Neon pulse */
+  @keyframes neonPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.85; }
+  }
+
+  .section-title {
+    animation: neonPulse 3s ease-in-out infinite;
+  }
+
+  /* Fade in */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
@@ -488,6 +685,19 @@
   .feed-card:nth-child(6) { animation-delay: 0.3s; }
   .feed-card:nth-child(7) { animation-delay: 0.35s; }
   .feed-card:nth-child(8) { animation-delay: 0.4s; }
+
+  /* Corner accents on featured cards */
+  .feed-card.featured::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-top: 2px solid var(--neon-cyan);
+    border-right: 2px solid var(--neon-cyan);
+    opacity: 0.3;
+  }
 </style>
 </head>
 <body>
@@ -497,11 +707,11 @@
   <div class="header-inner">
     <div class="logo">
       <div class="logo-icon">🎮</div>
-      Game<span>Pulse</span>
+      GAME<span>PULSE</span>
     </div>
     <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" placeholder="搜索游戏、设计话题、行业动态..." oninput="filterCards()">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="> 搜索游戏、设计话题、行业动态..." oninput="filterCards()">
     </div>
     <div class="header-date" id="currentDate"></div>
   </div>
@@ -511,19 +721,19 @@
 <div class="tabs-container">
   <div class="tabs-inner">
     <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">
-      全部 <span class="tab-count" id="countAll">0</span>
+      ALL <span class="tab-count" id="countAll">0</span>
     </button>
     <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
-      🚀 新游发布 <span class="tab-count" id="countNew">0</span>
+      ▸ 新游 <span class="tab-count" id="countNew">0</span>
     </button>
     <button class="tab-btn" data-tab="design" onclick="switchTab('design')">
-      🧠 设计拆解 <span class="tab-count" id="countDesign">0</span>
+      ▸ 设计 <span class="tab-count" id="countDesign">0</span>
     </button>
     <button class="tab-btn" data-tab="industry" onclick="switchTab('industry')">
-      🏭 行业动态 <span class="tab-count" id="countIndustry">0</span>
+      ▸ 行业 <span class="tab-count" id="countIndustry">0</span>
     </button>
     <button class="tab-btn" data-tab="art" onclick="switchTab('art')">
-      🎨 美术参考 <span class="tab-count" id="countArt">0</span>
+      ▸ 美术 <span class="tab-count" id="countArt">0</span>
     </button>
   </div>
 </div>
@@ -534,40 +744,40 @@
   <div class="stats-bar">
     <div class="stat-card">
       <div class="stat-number new" id="statNew">0</div>
-      <div class="stat-label">新游资讯</div>
+      <div class="stat-label">New Releases</div>
     </div>
     <div class="stat-card">
       <div class="stat-number design" id="statDesign">0</div>
-      <div class="stat-label">设计分析</div>
+      <div class="stat-label">Design Analysis</div>
     </div>
     <div class="stat-card">
       <div class="stat-number industry" id="statIndustry">0</div>
-      <div class="stat-label">行业动态</div>
+      <div class="stat-label">Industry News</div>
     </div>
     <div class="stat-card">
       <div class="stat-number art" id="statArt">0</div>
-      <div class="stat-label">美术灵感</div>
+      <div class="stat-label">Art Reference</div>
     </div>
   </div>
 
   <!-- April Release Calendar -->
   <div id="calendarSection">
-    <div class="section-title">📅 2026年4月 重点新游日历</div>
+    <div class="section-title">// 2026.04 RELEASE CALENDAR</div>
     <div class="calendar-grid" id="calendarGrid"></div>
   </div>
 
   <!-- Feed -->
-  <div class="section-title">📡 灵感 Feed</div>
+  <div class="section-title">// INSPIRATION FEED</div>
   <div class="feed" id="feedContainer"></div>
 </main>
 
 <!-- Guestbook -->
 <section class="guestbook">
-  <div class="guestbook-title">💬 留言板</div>
+  <div class="guestbook-title">// MESSAGE BOARD</div>
   <div class="guestbook-card">
     <div class="guestbook-intro">
-      来都来了，留个言再走吧 👋<br>
-      用 <strong>GitHub 账号</strong>登录即可留言，支持 Markdown 格式。无论是灵感碰撞、功能建议、Bug反馈，还是单纯想聊聊游戏开发，都欢迎！
+      来都来了，留个言再走吧 ▸<br>
+      用 <strong>GitHub 账号</strong>登录即可留言，支持 Markdown 格式。灵感碰撞、功能建议、Bug反馈，或者单纯聊聊游戏开发，都欢迎。
     </div>
     <div class="giscus">
       <script src="https://giscus.app/client.js"
@@ -592,8 +802,8 @@
 
 <!-- Footer -->
 <footer class="footer">
-  GamePulse — 为游戏开发者打造的灵感聚合站 · 数据来源: GameSpot, PC Gamer, Game Developer, GDC, ArtStation, 80 Level<br>
-  由小岛秀夫 🕶️ 为 Monet 构建
+  GAMEPULSE :: 游戏开发灵感聚合站 :: SRC: GameSpot, PC Gamer, Game Developer, GDC, ArtStation, 80 Level<br>
+  BUILT BY 小岛秀夫 🕶️ FOR MONET
 </footer>
 
 <script>
@@ -832,7 +1042,7 @@ function renderFeed() {
       <div class="feed-desc">${item.desc}</div>
       ${item.highlights ? `
         <div class="feed-highlights">
-          <div class="feed-highlights-title">关键标签</div>
+          <div class="feed-highlights-title">// TAGS</div>
           <ul>${item.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
         </div>
       ` : ''}
