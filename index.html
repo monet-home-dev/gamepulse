@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameDev Pulse — 游戏开发灵感站</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: #1a1a28;
+    --bg-card-hover: #222236;
+    --border: #2a2a3e;
+    --text-primary: #e8e8f0;
+    --text-secondary: #9898b0;
+    --text-muted: #5e5e78;
+    --accent-new: #ff4d6a;
+    --accent-design: #7b61ff;
+    --accent-industry: #00c9a7;
+    --accent-art: #ffb347;
+    --gradient-new: linear-gradient(135deg, #ff4d6a, #ff2d5e);
+    --gradient-design: linear-gradient(135deg, #7b61ff, #5a3fff);
+    --gradient-industry: linear-gradient(135deg, #00c9a7, #00a88a);
+    --gradient-art: linear-gradient(135deg, #ffb347, #ff9500);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--gradient-design);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .logo span { color: var(--accent-design); }
+
+  .search-bar {
+    flex: 0 1 400px;
+    position: relative;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  .search-bar input:focus {
+    border-color: var(--accent-design);
+    box-shadow: 0 0 0 3px rgba(123, 97, 255, 0.15);
+  }
+
+  .search-bar input::placeholder { color: var(--text-muted); }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .header-date {
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Tabs */
+  .tabs-container {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+
+  .tabs-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    padding: 12px 0;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+
+  .tab-btn:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+  }
+
+  .tab-btn.active[data-tab="new"] { background: rgba(255, 77, 106, 0.15); color: var(--accent-new); }
+  .tab-btn.active[data-tab="design"] { background: rgba(123, 97, 255, 0.15); color: var(--accent-design); }
+  .tab-btn.active[data-tab="industry"] { background: rgba(0, 201, 167, 0.15); color: var(--accent-industry); }
+  .tab-btn.active[data-tab="art"] { background: rgba(255, 179, 71, 0.15); color: var(--accent-art); }
+
+  .tab-count {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    font-weight: 600;
+  }
+
+  .tab-btn.active[data-tab="new"] .tab-count { background: rgba(255, 77, 106, 0.25); }
+  .tab-btn.active[data-tab="design"] .tab-count { background: rgba(123, 97, 255, 0.25); }
+  .tab-btn.active[data-tab="industry"] .tab-count { background: rgba(0, 201, 167, 0.25); }
+  .tab-btn.active[data-tab="art"] .tab-count { background: rgba(255, 179, 71, 0.25); }
+
+  /* Main content */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Feed */
+  .feed { display: flex; flex-direction: column; gap: 16px; }
+
+  .feed-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feed-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 4px 0 0 4px;
+  }
+
+  .feed-card[data-type="new"]::before { background: var(--gradient-new); }
+  .feed-card[data-type="design"]::before { background: var(--gradient-design); }
+  .feed-card[data-type="industry"]::before { background: var(--gradient-industry); }
+  .feed-card[data-type="art"]::before { background: var(--gradient-art); }
+
+  .feed-card:hover {
+    background: var(--bg-card-hover);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+
+  .feed-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .feed-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .feed-tag.new { background: rgba(255, 77, 106, 0.15); color: var(--accent-new); }
+  .feed-tag.design { background: rgba(123, 97, 255, 0.15); color: var(--accent-design); }
+  .feed-tag.industry { background: rgba(0, 201, 167, 0.15); color: var(--accent-industry); }
+  .feed-tag.art { background: rgba(255, 179, 71, 0.15); color: var(--accent-art); }
+
+  .feed-source {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  .feed-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .feed-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+  }
+
+  .feed-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .feed-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .feed-highlights {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .feed-highlights-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .feed-highlights ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .feed-highlights li {
+    font-size: 13px;
+    padding: 4px 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    color: var(--text-secondary);
+  }
+
+  /* Featured card (larger) */
+  .feed-card.featured {
+    padding: 32px;
+  }
+
+  .feed-card.featured .feed-title {
+    font-size: 24px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .stat-number.new { color: var(--accent-new); }
+  .stat-number.design { color: var(--accent-design); }
+  .stat-number.industry { color: var(--accent-industry); }
+  .stat-number.art { color: var(--accent-art); }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* Release calendar */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .cal-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.3s;
+  }
+
+  .cal-item:hover {
+    border-color: var(--accent-new);
+    transform: translateY(-1px);
+  }
+
+  .cal-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-new);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .cal-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .cal-platform {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .cal-hot {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(255, 77, 106, 0.2);
+    color: var(--accent-new);
+    font-weight: 700;
+    margin-left: 6px;
+  }
+
+  /* Hidden */
+  .hidden { display: none !important; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .footer a { color: var(--accent-design); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-inner { gap: 12px; }
+    .search-bar { flex: 1; }
+    .header-date { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .feed-card.featured .feed-title { font-size: 20px; }
+    .feed-title { font-size: 16px; }
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feed-card { animation: fadeInUp 0.4s ease-out both; }
+  .feed-card:nth-child(1) { animation-delay: 0.05s; }
+  .feed-card:nth-child(2) { animation-delay: 0.1s; }
+  .feed-card:nth-child(3) { animation-delay: 0.15s; }
+  .feed-card:nth-child(4) { animation-delay: 0.2s; }
+  .feed-card:nth-child(5) { animation-delay: 0.25s; }
+  .feed-card:nth-child(6) { animation-delay: 0.3s; }
+  .feed-card:nth-child(7) { animation-delay: 0.35s; }
+  .feed-card:nth-child(8) { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🎮</div>
+      Game<span>Pulse</span>
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜索游戏、设计话题、行业动态..." oninput="filterCards()">
+    </div>
+    <div class="header-date" id="currentDate"></div>
+  </div>
+</header>
+
+<!-- Tabs -->
+<div class="tabs-container">
+  <div class="tabs-inner">
+    <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">
+      全部 <span class="tab-count" id="countAll">0</span>
+    </button>
+    <button class="tab-btn" data-tab="new" onclick="switchTab('new')">
+      🚀 新游发布 <span class="tab-count" id="countNew">0</span>
+    </button>
+    <button class="tab-btn" data-tab="design" onclick="switchTab('design')">
+      🧠 设计拆解 <span class="tab-count" id="countDesign">0</span>
+    </button>
+    <button class="tab-btn" data-tab="industry" onclick="switchTab('industry')">
+      🏭 行业动态 <span class="tab-count" id="countIndustry">0</span>
+    </button>
+    <button class="tab-btn" data-tab="art" onclick="switchTab('art')">
+      🎨 美术参考 <span class="tab-count" id="countArt">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- Main -->
+<main class="main">
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-number new" id="statNew">0</div>
+      <div class="stat-label">新游资讯</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number design" id="statDesign">0</div>
+      <div class="stat-label">设计分析</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number industry" id="statIndustry">0</div>
+      <div class="stat-label">行业动态</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number art" id="statArt">0</div>
+      <div class="stat-label">美术灵感</div>
+    </div>
+  </div>
+
+  <!-- April Release Calendar -->
+  <div id="calendarSection">
+    <div class="section-title">📅 2026年4月 重点新游日历</div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+  </div>
+
+  <!-- Feed -->
+  <div class="section-title">📡 灵感 Feed</div>
+  <div class="feed" id="feedContainer"></div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  GamePulse — 为游戏开发者打造的灵感聚合站 · 数据来源: GameSpot, PC Gamer, Game Developer, GDC, ArtStation, 80 Level<br>
+  由小岛秀夫 🕶️ 为 Monet 构建
+</footer>
+
+<script>
+// ============ DATA ============
+
+const calendarData = [
+  { date: '4月7日', title: 'Road to Vostok', platform: 'Steam EA', hot: true },
+  { date: '4月8日', title: 'Samson', platform: 'Steam', hot: true },
+  { date: '4月14日', title: 'Mouse: P.I. For Hire', platform: 'Steam', hot: true },
+  { date: '4月14日', title: 'Replaced', platform: 'Steam', hot: true },
+  { date: '4月16日', title: 'Pragmata', platform: 'Steam', hot: true },
+  { date: '4月21日', title: 'Vampire Crawlers', platform: 'Steam' },
+  { date: '4月22日', title: 'Masters of Albion', platform: 'Steam EA', hot: true },
+  { date: '4月23日', title: 'Outbound', platform: 'Steam' },
+  { date: '4月28日', title: 'Diablo 4: Lord of Hatred', platform: 'Steam', hot: true },
+  { date: '4月30日', title: 'Heroes of M&M: Olden Era', platform: 'Steam EA', hot: true },
+  { date: '4月30日', title: 'Invincible VS', platform: 'Steam' },
+];
+
+const feedData = [
+  // === NEW RELEASES ===
+  {
+    type: 'new',
+    tag: '新游发布',
+    source: 'GameSpot / PC Gamer',
+    title: 'Pragmata — Capcom神秘科幻大作终于定档4月16日',
+    desc: 'Capcom的Pragmata自2020年公布以来经历了多次跳票，最终确认2026年4月16日发售。这款作品使用Capcom自研RE引擎，承诺带来"前所未有的交互体验"。从预告片来看，其UI设计和交互系统极具实验性，值得所有策划关注。',
+    date: '2026-04-16',
+    highlights: ['RE引擎', '实验性交互', '科幻题材', 'Capcom'],
+    link: 'https://www.gamespot.com/gallery/the-biggest-new-game-releases-of-april-2026/2900-7623/',
+    featured: true
+  },
+  {
+    type: 'new',
+    tag: '新游发布',
+    source: 'PC Gamer',
+    title: 'Masters of Albion — Peter Molyneux的"上帝游戏"回归',
+    desc: 'Peter Molyneux新作Masters of Albion以EA形式上线，核心玩法围绕"直接操控世界"和"上帝之手"交互模型展开。对于关注交互设计的策划来说，这是一个研究"权力感"和"操控反馈"的绝佳案例。',
+    date: '2026-04-22',
+    highlights: ['上帝游戏', '交互模型', 'EA抢先体验', 'Molyneux'],
+    link: 'https://www.pcgamer.com/games/pc-game-release-dates-april-2026/'
+  },
+  {
+    type: 'new',
+    tag: '新游发布',
+    source: 'PC Gamer',
+    title: 'Diablo 4: Lord of Hatred — 资料片能否挽回玩家信心？',
+    desc: '暗黑4第二部资料片"憎恨之王"4月28日上线，引入新职业和新区域。作为赛季制ARPG的设计标杆，D4的职业设计和赛季循环机制值得持续追踪。',
+    date: '2026-04-28',
+    highlights: ['ARPG', '赛季设计', '暴雪', '资料片'],
+    link: 'https://www.pcgamer.com/games/pc-game-release-dates-april-2026/'
+  },
+  {
+    type: 'new',
+    tag: '新游发布',
+    source: 'Screen Rant',
+    title: '4月新游总览：从Replaced到Heroes of M&M',
+    desc: '4月共有40+款游戏发售，其中Replaced的赛博朋克像素风、Mouse: P.I. For Hire的复古卡通FPS风格、以及Invincible VS的超级英雄格斗都是视觉风格上的亮点。',
+    date: '2026-04-01',
+    highlights: ['像素风', '复古FPS', '格斗', '赛博朋克'],
+    link: 'https://screenrant.com/april-2026-video-games-releases-schedule-line-up/'
+  },
+
+  // === DESIGN ANALYSIS ===
+  {
+    type: 'design',
+    tag: '设计拆解',
+    source: 'Cryptic Design',
+    title: '2026游戏体验基准：从系统设计视角重新审视玩家与机器的关系',
+    desc: 'Robert Croft提出了"体验式学习"分析框架——不关注Bug和平衡性，而是聚焦于"系统复杂性与人类直觉的摩擦点"。文章将2026年重点作品按季度排列，作为一份"设计课程表"而非发售日历。',
+    date: '2026-02-02',
+    highlights: ['体验式学习', 'UI密度', '系统复杂性', '玩家直觉'],
+    link: 'https://www.crypticdesign.net/articles/2026-game-design-benchmarks',
+    featured: true
+  },
+  {
+    type: 'design',
+    tag: '设计拆解',
+    source: 'Cryptic Design',
+    title: 'Pathologic 3 — 压力驱动的UI设计与道德分诊',
+    desc: 'Patholic 3被标记为Q1最重要的设计案例：如何在极端压力下让UI传递信息密度，同时维持"道德分诊"的决策张力。这是研究"负反馈作为设计语言"的教科书级案例。',
+    date: '2026-01-09',
+    highlights: ['压力UI', '道德分诊', '负反馈设计', '生存游戏'],
+    link: 'https://www.crypticdesign.net/articles/2026-game-design-benchmarks'
+  },
+  {
+    type: 'design',
+    tag: '设计拆解',
+    source: 'Cryptic Design',
+    title: 'Marathon — Bungie的极简HUD与高压信息层级',
+    desc: 'Bungie新作Marathon采用了极简HUD和颜色编码信息层级，在高风险射击场景中测试"最少信息传递最多含义"的设计理念。对FPS策划来说，这是一堂关于信息减法的课。',
+    date: '2026-03-05',
+    highlights: ['极简HUD', '颜色编码', '信息减法', 'FPS设计'],
+    link: 'https://www.crypticdesign.net/articles/2026-game-design-benchmarks'
+  },
+  {
+    type: 'design',
+    tag: '设计拆解',
+    source: 'Hitem3D',
+    title: '2026年十大游戏设计趋势：AI内容、VR/AR与云游戏',
+    desc: '从AI生成内容到VR/AR整合，从云游戏到跨平台体验——文章拆解了10个正在重塑游戏设计的关键趋势，为策划提供了前瞻性的设计方向参考。',
+    date: '2026-03-13',
+    highlights: ['AI内容生成', 'VR/AR', '云游戏', '跨平台'],
+    link: 'https://www.hitem3d.ai/blog/en-The-Future-of-Game-Design-10-Trends-Shaping-the-Industry-in-2026-and-Beyond/'
+  },
+  {
+    type: 'design',
+    tag: '设计拆解',
+    source: 'Cryptic Design',
+    title: 'GTA VI — 系统密度、规模与体验保真度的终极基准',
+    desc: '文章将GTA VI定位为"行业定义性基准"——在系统密度、开放世界规模和体验保真度三个维度上，它将重新定义"玩家-机器交互"的上限。11月19日见真章。',
+    date: '2026-11-19',
+    highlights: ['系统密度', '开放世界', '交互上限', 'Rockstar'],
+    link: 'https://www.crypticdesign.net/articles/2026-game-design-benchmarks'
+  },
+
+  // === INDUSTRY ===
+  {
+    type: 'industry',
+    tag: '行业动态',
+    source: 'GDC 2026',
+    title: '2026游戏行业状况报告：裁员、AI与工会化浪潮',
+    desc: 'GDC发布的年度行业报告揭示了严峻现状：28%受访者在过去两年被裁，AAA工作室裁员率达66%。同时52%从业者认为AI对行业有负面影响（2025年仅30%）。但82%美国从业者支持工会化，行业正在自我重组。',
+    date: '2026-01-29',
+    highlights: ['28%裁员率', '52%反AI', '82%支持工会', '行业重组'],
+    link: 'https://gdconf.com/article/gdc-2026-state-of-the-game-industry-reveals-impact-of-layoffs-generative-ai-and-more/',
+    featured: true
+  },
+  {
+    type: 'industry',
+    tag: '行业动态',
+    source: 'GDC 2026',
+    title: 'Unreal Engine超越Unity成为开发者首选引擎',
+    desc: 'GDC报告显示UE以42%使用率超越Unity的30%，在AA和AAA工作室中更是占据59%和47%。独立工作室仍偏好Unity(54%)，但新兴独立工作室有11%选择了Godot。引擎格局正在重塑。',
+    date: '2026-01-29',
+    highlights: ['UE 42%', 'Unity 30%', 'Godot崛起', '引擎战争'],
+    link: 'https://gdconf.com/article/gdc-2026-state-of-the-game-industry-reveals-impact-of-layoffs-generative-ai-and-more/'
+  },
+  {
+    type: 'industry',
+    tag: '行业动态',
+    source: 'BCG',
+    title: 'BCG 2026游戏产业报告：平台融合驱动新增长周期',
+    desc: '波士顿咨询集团报告指出，游戏行业正进入新增长时代。平台融合（PC/主机/移动/云）将成为核心驱动力，73%高管将PC列为未来开发优先平台。',
+    date: '2025-12-09',
+    highlights: ['平台融合', 'PC优先', '新增长周期', '跨平台'],
+    link: 'https://www.bcg.com/publications/2025/video-gaming-report-2026-next-era-of-growth'
+  },
+  {
+    type: 'industry',
+    tag: '行业动态',
+    source: 'Metaintro / Polygon',
+    title: 'GDC 2026现场：求职者激增，行业危机下的开发者群像',
+    desc: 'GDC 2026出现了异常多的求职者，行业在三年持续裁员后仍在大量流失岗位。但与此同时，GDC也是社区重建和知识共享的阵地。Polygon持续更新了所有GDC新闻和访谈。',
+    date: '2026-03-09',
+    highlights: ['求职危机', '社区重建', 'GDC现场', '行业韧性'],
+    link: 'https://www.polygon.com/gdc-2026-news-previews-interviews-demos/'
+  },
+
+  // === ART ===
+  {
+    type: 'art',
+    tag: '美术参考',
+    source: 'VSQUAD',
+    title: '2026游戏美术五大趋势：超写实、风格化与AI辅助创作',
+    desc: '从光追驱动的超写实到独立游戏的风格化表达，从AI辅助内容到VR/AR整合，再到跨平台视觉优化——文章梳理了五个正在改变游戏视觉的关键趋势。核心理念：技术提供工具，但创造令人沉浸的世界仍是核心。',
+    date: '2026-01-20',
+    highlights: ['超写实', '风格化', 'AI辅助', 'VR/AR', '跨平台优化'],
+    link: 'https://vsquad.art/blog/new-trends-in-game-art-industry',
+    featured: true
+  },
+  {
+    type: 'art',
+    tag: '美术参考',
+    source: 'Creative Uncut',
+    title: 'Creative Uncut — 2700+游戏概念艺术资料库',
+    desc: 'Creative Uncut收录了超过100,000件来自2,700+游戏作品的角色概念艺术和官方插画，是游戏策划和美术寻找视觉参考的宝库。覆盖从经典到最新的各类型作品。',
+    date: '持续更新',
+    highlights: ['10万+作品', '2700+游戏', '角色设计', '概念艺术'],
+    link: 'https://www.creativeuncut.com/'
+  },
+  {
+    type: 'art',
+    tag: '美术参考',
+    source: 'ArtSee',
+    title: 'ArtSee艺视 — 游戏与电影艺术设定集在线浏览',
+    desc: 'ArtSee是一个专注于艺术设定集和画集的在线平台，提供游戏和电影的设定内容在线浏览。对策划来说，这是研究"如何用视觉语言传达设计意图"的绝佳资源。',
+    date: '持续更新',
+    highlights: ['设定集', '视觉语言', '设计意图', '在线浏览'],
+    link: 'https://artsee.cc/'
+  },
+  {
+    type: 'art',
+    tag: '美术参考',
+    source: 'Ropewalk AI',
+    title: 'AI游戏美术工具实战指南：从概念设计到资产生成',
+    desc: '详解如何使用SDXL、FLUX 2 Pro、Recraft V4等AI工具生成专业级游戏概念艺术、角色设计、环境美术和UI图标。对想要用AI加速美术流程的团队来说，这是一份实操手册。',
+    date: '2026-03-23',
+    highlights: ['SDXL', 'FLUX 2 Pro', '角色设计', '环境美术'],
+    link: 'https://ropewalk.ai/blog/ai-game-art-concept-art-generator-2026'
+  }
+];
+
+// ============ RENDER ============
+
+function renderCalendar() {
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = calendarData.map(item => `
+    <div class="cal-item">
+      <div class="cal-date">${item.date}</div>
+      <div class="cal-title">${item.title}${item.hot ? '<span class="cal-hot">HOT</span>' : ''}</div>
+      <div class="cal-platform">${item.platform}</div>
+    </div>
+  `).join('');
+}
+
+function renderFeed() {
+  const container = document.getElementById('feedContainer');
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  
+  const filtered = feedData.filter(item => {
+    const matchSearch = !searchTerm || 
+      item.title.toLowerCase().includes(searchTerm) || 
+      item.desc.toLowerCase().includes(searchTerm) ||
+      (item.highlights && item.highlights.some(h => h.toLowerCase().includes(searchTerm)));
+    return matchSearch;
+  });
+
+  container.innerHTML = filtered.map((item, i) => `
+    <div class="feed-card ${item.featured ? 'featured' : ''}" data-type="${item.type}" onclick="window.open('${item.link}', '_blank')">
+      <div class="feed-card-header">
+        <span class="feed-tag ${item.type}">${item.tag}</span>
+        <span class="feed-source">${item.source} · ${item.date}</span>
+      </div>
+      <div class="feed-title">${item.title}</div>
+      <div class="feed-desc">${item.desc}</div>
+      ${item.highlights ? `
+        <div class="feed-highlights">
+          <div class="feed-highlights-title">关键标签</div>
+          <ul>${item.highlights.map(h => `<li>${h}</li>`).join('')}</ul>
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+function updateCounts() {
+  const newCount = feedData.filter(d => d.type === 'new').length;
+  const designCount = feedData.filter(d => d.type === 'design').length;
+  const industryCount = feedData.filter(d => d.type === 'industry').length;
+  const artCount = feedData.filter(d => d.type === 'art').length;
+
+  document.getElementById('countAll').textContent = feedData.length;
+  document.getElementById('countNew').textContent = newCount;
+  document.getElementById('countDesign').textContent = designCount;
+  document.getElementById('countIndustry').textContent = industryCount;
+  document.getElementById('countArt').textContent = artCount;
+
+  document.getElementById('statNew').textContent = newCount;
+  document.getElementById('statDesign').textContent = designCount;
+  document.getElementById('statIndustry').textContent = industryCount;
+  document.getElementById('statArt').textContent = artCount;
+}
+
+// ============ INTERACTION ============
+
+let currentTab = 'all';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+
+  const cards = document.querySelectorAll('.feed-card');
+  cards.forEach(card => {
+    if (tab === 'all' || card.dataset.type === tab) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  // Also toggle calendar section visibility
+  const calSection = document.getElementById('calendarSection');
+  if (tab === 'all' || tab === 'new') {
+    calSection.classList.remove('hidden');
+  } else {
+    calSection.classList.add('hidden');
+  }
+}
+
+function filterCards() {
+  renderFeed();
+  switchTab(currentTab);
+}
+
+// ============ INIT ============
+
+function init() {
+  const now = new Date();
+  document.getElementById('currentDate').textContent = 
+    now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+  renderCalendar();
+  renderFeed();
+  updateCounts();
+}
+
+init();
+</script>
+</body>
+</html>
